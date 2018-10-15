@@ -1,5 +1,4 @@
-package com.company;
-import java.util.Scanner;
+package com.company;    import java.util.Scanner;
 
 public class NumbersToWords {
     public static void main(String args[]) {
@@ -9,9 +8,8 @@ public class NumbersToWords {
     }
 
     public static void sliceNumbers(String number, long l){
-        int noOfTimes;
-        noOfTimes = (number.length() % 3 == 0) ? number.length()/3 : (number.length()/3) + 1;
-        int count = 1;        int start = number.length() - 3;        int end = number.length();
+        int noOfTimes = (number.length() % 3 == 0) ? number.length()/3 : (number.length()/3) + 1;
+        int count = 1;        int start = number.length() - 3;       int end = number.length();
         int placeValue;    String result = "";
         for (int j = 1; j <= noOfTimes; j++){
             placeValue = (count != 1) ? count : 0;
@@ -23,35 +21,24 @@ public class NumbersToWords {
             res = (count == 1 && Integer.parseInt(n) < 100 && Integer.parseInt(n) > 0 && l > 99) ? " and " + res: res;
             result = res  + result; start -= 3; end -= 3; count ++;
         }
-        System.out.println(result + "\n");
+        System.out.println(result);
     }
 
     public static String numberToWords(long number, int placeValue) {
-        String[] singleWords = {"Zero","One", "Two", "Three","Four","Five","Six","Seven","Eight","Nine","Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Seventeen","Eighteen","Nineteen"};
+        String[] singleWords = {"Zero","One", "Two", "Three","Four","Five","Six","Seven","Eight","Nine","Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen"};
         String[] tensOfWords ={"Ten","Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"};
         String[] placeValues = {"","Hundred","Thousand","Million","Billion","Trillion"};
-
         int numbers = (int) number;
-        String n = numbers + "";    String a;
-        int length = n.length();
-        if (length < 4 && length > 0) {
-            if (numbers == 0){
-                return "";            }
-            if (length == 1){
-                return singleWords[numbers] + " " + placeValues[placeValue] + " ";            }
-            else if ((20 > number) && (number > 10)){
-                return singleWords[numbers - 1] + " ";
-            }
-            else if (length == 2 && number % 10 == 0){
-                return tensOfWords[numbers/10 - 1] + " " + placeValues[placeValue] + " ";            }
+        String a;        int length = (int) Math.log10(numbers) +1; String result = "";
 
-            else if(length == 2 && numbers % 10 != 0){
-                return tensOfWords[((numbers - (numbers%10))/10 -1)] + " " + singleWords[numbers%10] + placeValues[placeValue] + " ";            }
-
-            else if (length == 3){
-                a = (number % 100 == 0) ? "" : " and ";
-                return singleWords[(numbers - numbers % 100)/100] + " " + placeValues[1] + a + numberToWords(number % 100, 0)  + placeValues[placeValue] + " ";            }
-        }
-        return "error";
+        result = (numbers == 0)? (""):(result);
+        result = (length == 1)? (singleWords[numbers] + " " + placeValues[placeValue] + " "):(result);
+        result = ((20 > number) && (number > 10))? (singleWords[numbers - 1] + " " + placeValues[placeValue] + " "):(result);
+        result = (length == 2 && number % 10 == 0)?(tensOfWords[numbers/10 - 1] + " " + placeValues[placeValue] + " "):(result);
+        result = (length == 2 && numbers % 10 != 0) ? (tensOfWords[((numbers - (numbers%10))/10 -1)] + " " + singleWords[numbers%10] + " " + placeValues[placeValue] + " ") : (result);
+        if (length == 3){
+            a = (number % 100 == 0) ? " " : " and ";
+            result = singleWords[(numbers - numbers % 100)/100] + " " + placeValues[1] + a + numberToWords(number % 100, 0)  + placeValues[placeValue] + ", ";            }
+        return result;
     }
 }
